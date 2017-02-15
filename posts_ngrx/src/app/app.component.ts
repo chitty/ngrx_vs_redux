@@ -1,52 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store, provideStore } from '@ngrx/store';
 
 import { Post } from './post';
-import { PostService } from './post.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [PostService]
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'The Blog';
   selectedPost: Post;
-  posts: Post[];
+  public posts;
 
-  constructor(private postService: PostService) { }
-
-  ngOnInit(): void {
-    this.getPosts();
+  constructor(private _store: Store<any>) {
+      _store.select('posts')
+        .subscribe(posts => {
+          this.posts = posts;
+        })
   }
 
-  getPosts(): void {
-    this.posts = this.postService.getPosts();
+  createPost(post) {
+    this._store.dispatch({type: "ADD_POST", payload: post});
   }
 
-  createPost(post): void {
-    this.postService.createPost(post);
-  }
-
-  updatePost(post): void {
-    this.postService.updatePost(post);
-  }
-
-  deletePost(post): void {
-    if (post == this.selectedPost) {
-      this.selectedPost = undefined;
-    }
-    this.postService.deletePost(post);
-  }
-
-  incrementStatus(post): void {
-    ++post.status;
-    this.postService.updatePost(post);
-  }
-
-  decrementStatus(post): void {
-    --post.status;
-    this.postService.updatePost(post);
+  deletePost(id) {
+    this._store.dispatch({type: "DELETE_POST", payload: id});
   }
 
   onSelect(post: Post): void {
