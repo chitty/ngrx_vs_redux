@@ -39,6 +39,16 @@ export class AppComponent implements OnInit {
     this.postService.deletePost(post);
   }
 
+  incrementStatus(post): void {
+    ++post.status;
+    this.postService.updatePost(post);
+  }
+
+  decrementStatus(post): void {
+    --post.status;
+    this.postService.updatePost(post);
+  }
+
   onSelect(post: Post): void {
     this.selectedPost = post;
   }
