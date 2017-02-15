@@ -1,0 +1,15 @@
+<h1>{{title}}</h1>
+<div *ngIf="selectedPost">
+    <h2>{{selectedPost.title}} details!</h2>
+    <div><label>id: </label>{{selectedPost.id}}</div>
+    <div><label>status: </label>{{selectedPost.status}}</div>
+    <div>
+      <label>title: </label>
+      <input [(ngModel)]="selectedPost.title" placeholder="title">
+    </div>
+</div>
+<ul class="posts">
+    <li *ngFor="let post of posts" (click)="onSelect(post)">
+      <span class="badge">{{post.id}}</span> {{post.title}}
+    </li>
+</ul>
