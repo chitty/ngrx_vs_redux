@@ -26,6 +26,19 @@ export class AppComponent {
 
   deletePost(id) {
     this._store.dispatch({type: "DELETE_POST", payload: id});
+    this.selectedPost = undefined;
+  }
+
+  incrementStatus(post) {
+    this._store.dispatch({type: "INCREMENT_STATUS", payload: post.id});
+  }
+
+  decrementStatus(post) {
+    this._store.dispatch({type: "DECREMENT_STATUS", payload: post.id});
+  }
+
+  updatePost(post) {
+    this._store.dispatch({type: "UPDATE_POST", payload: post});
   }
 
   onSelect(post: Post): void {
