@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Store, provideStore } from '@ngrx/store';
 
 import { Post } from './post';
 
 @Injectable()
 export class PostService {
 
-  public posts = [
-    { id: 11, status: 1, title: 'Mr. Nice' },
-    { id: 12, status: 2, title: 'Narco' },
-    { id: 13, status: 3, title: 'Bombasto' },
-    { id: 14, status: 4, title: 'Celeritas' },
-    { id: 15, status: 5, title: 'Magneta' },
-    { id: 16, status: 6, title: 'RubberMan' },
-    { id: 17, status: 5, title: 'Dynama' },
-    { id: 18, status: 4, title: 'Dr IQ' },
-    { id: 19, status: 3, title: 'Magma' },
-    { id: 20, status: 2, title: 'Tornado' }
-  ];
+  public posts;
+
+  constructor(private _store: Store<any>) {
+      _store.select('posts')
+        .subscribe(posts => {
+          this.posts = posts;
+        })
+  }
 
   getPosts(): Post[] {
     return this.posts;
@@ -24,6 +21,11 @@ export class PostService {
 
   createPost(post) {
     this.posts.push(post);
+    this._store.dispatch({type: "ADD_POST", payload: {
+      id: post.id,
+      title: post.title,
+      status: post.status
+    }});
   }
 
   updatePost(post) {
