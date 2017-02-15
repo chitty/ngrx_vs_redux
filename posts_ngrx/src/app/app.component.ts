@@ -20,11 +20,24 @@ export class AppComponent implements OnInit {
     this.getPosts();
   }
 
-
   getPosts(): void {
     this.posts = this.postService.getPosts();
   }
 
+  createPost(post): void {
+    this.postService.createPost(post);
+  }
+
+  updatePost(post): void {
+    this.postService.updatePost(post);
+  }
+
+  deletePost(post): void {
+    if (post == this.selectedPost) {
+      this.selectedPost = undefined;
+    }
+    this.postService.deletePost(post);
+  }
 
   onSelect(post: Post): void {
     this.selectedPost = post;

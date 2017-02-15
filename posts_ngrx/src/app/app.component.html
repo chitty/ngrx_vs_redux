@@ -7,9 +7,22 @@
       <label>title: </label>
       <input [(ngModel)]="selectedPost.title" placeholder="title">
     </div>
+    <button (click)="updatePost(selectedPost)">Update</button>
 </div>
 <ul class="posts">
     <li *ngFor="let post of posts" [class.selected]="post === selectedPost" (click)="onSelect(post)">
       <span class="badge">{{post.id}}</span> {{post.title}}
+      <button (click)="deletePost(post)">Delete</button>
     </li>
 </ul>
+
+<h2>Add new post</h2>
+<div>
+  <label>Post ID:</label> <input #postId />
+  <label>Post title:</label> <input #postTitle />
+  <label>Post status:</label> <input #postStatus />
+  <button (click)="createPost({title: postTitle.value, id:postId.value, status:postStatus.value});
+        postId.value=''; postTitle.value=''; postStatus.value=''">
+    Add
+  </button>
+</div>
