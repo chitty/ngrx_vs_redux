@@ -1,56 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { NgRedux, select, DevToolsExtension } from '@angular-redux/store';
+import { IAppState, rootReducer } from '../store';
+import * as createLogger from 'redux-logger';
 
 import { Post } from './post';
-import { PostService } from './post.service';
+import { PostActions } from './app.actions';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [PostService]
 })
 export class AppComponent implements OnInit {
   title = 'The Blog';
   selectedPost: Post;
   posts: Post[];
 
-  constructor(private postService: PostService) { }
+  constructor(
+    public actions: PostActions,
+    private ngRedux: NgRedux<IAppState>,
+    private devTool: DevToolsExtension) {
+
+    this.ngRedux.configureStore(
+      rootReducer,
+      {},
+      [ createLogger() ],
+      [ devTool.isEnabled() ? devTool.enhancer() : f => f]);
+  }
 
   ngOnInit(): void {
-    this.getPosts();
-  }
-
-  getPosts(): void {
-    this.posts = this.postService.getPosts();
-  }
-
-  createPost(post): void {
-    this.postService.createPost(post);
-  }
-
-  updatePost(post): void {
-    this.postService.updatePost(post);
-  }
-
-  deletePost(post): void {
-    if (post == this.selectedPost) {
-      this.selectedPost = undefined;
-    }
-    this.postService.deletePost(post);
-  }
-
-  incrementStatus(post): void {
-    ++post.status;
-    this.postService.updatePost(post);
-  }
-
-  decrementStatus(post): void {
-    --post.status;
-    this.postService.updatePost(post);
-  }
-
-  onSelect(post: Post): void {
-    this.selectedPost = post;
+    console.log('ng-redux');
   }
 
 }

@@ -5,7 +5,7 @@
     <div><label>status: </label>
         <button (click)="decrementStatus(selectedPost)">-</button>
         {{selectedPost.status}}
-        <button (click)="incrementStatus(selectedPost)">+</button>
+        <button (click)="actions.increment()">+</button>
     </div>
     <div>
       <label>title: </label>
@@ -25,7 +25,7 @@
   <label>Post ID:</label> <input #postId />
   <label>Post title:</label> <input #postTitle />
   <label>Post status:</label> <input #postStatus />
-  <button (click)="createPost({title: postTitle.value, id:postId.value, status:postStatus.value});
+  <button (click)="actions.createPost({title: postTitle.value, id:postId.value, status:postStatus.value});
         postId.value=''; postTitle.value=''; postStatus.value=''">
     Add
   </button>
